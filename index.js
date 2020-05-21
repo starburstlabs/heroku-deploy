@@ -13,7 +13,7 @@ EOF`;
 
 const deploy = ({ dontuseforce, app_name, branch, usedocker, dockerHerokuProcessType, appdir }) => {
   const force = !dontuseforce ? "--force" : "";
-  execSync(`git config --local http.postBuffer 524288000`);
+  execSync(`git config --global http.postBuffer 524288000`);
 
   if (usedocker) {
     execSync(`heroku container:push ${dockerHerokuProcessType} --app ${app_name}`);
