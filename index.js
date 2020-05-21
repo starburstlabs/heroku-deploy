@@ -21,8 +21,7 @@ const deploy = ({ dontuseforce, app_name, branch, usedocker, dockerHerokuProcess
     if (appdir === "") {
       console.log("Setting git config http.postBuffer size");
       execSync(`git config --global http.postBuffer 524288000`);
-      console.log("Fetch from Heroku to determine if we have authenticated");
-      execSync(`git fetch heroku`);
+
       console.log("Push branch to heroku now");
       execSync(`git push heroku ${branch}:refs/heads/master ${force}`);
     } else {
