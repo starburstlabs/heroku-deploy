@@ -13,13 +13,17 @@ EOF`;
 
 const deploy = ({ dontuseforce, app_name, branch, usedocker, dockerHerokuProcessType, appdir }) => {
   const force = !dontuseforce ? "--force" : "";
-  execSync(`git config --global http.postBuffer 524288000`);
 
   if (usedocker) {
     execSync(`heroku container:push ${dockerHerokuProcessType} --app ${app_name}`);
     execSync(`heroku container:release ${dockerHerokuProcessType} --app ${app_name}`);
   } else {
     if (appdir === "") {
+      console.log("Setting git config http.postBuffer size");
+      execSync(`git config --global http.postBuffer 524288000`);
+      console.log("Fetch from Heroku to determine if we have authenticated");
+      execSync(`git fetch heroku`);
+      console.log("Push branch to heroku now");
       execSync(`git push heroku ${branch}:refs/heads/master ${force}`);
     } else {
       execSync(
